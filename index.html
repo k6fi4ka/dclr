@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор дверей</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Темная кнопка с эффектом рельефности */
+    .darkButton {
+      background-color: #333; /* темный фон */
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* рельефный эффект */
+      transition: all 0.3s ease;
+    }
+
+    .darkButton:hover {
+      background-color: #555;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); /* усиление эффекта при наведении */
+    }
+
+    .darkButton:active {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* эффект при нажатии */
+    }
+
+    /* Стили для скрытых секций с анимацией */
+    .info-toggle {
+      margin-top: 20px;
+      background-color: #222;
+      padding: 10px;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .info-toggle h3 {
+      margin: 0;
+    }
+
+    .info-toggle .info-content {
+      display: block;
+      padding-top: 10px;
+      font-size: 12px;
+      opacity: 0;
+      max-height: 0; /* Изначально скрываем контент */
+      overflow: hidden;
+      transition: all 0.6s ease-in-out; /* Плавное раскрытие */
+    }
+
+    .info-toggle.open .info-content {
+      opacity: 1;
+      max-height: 2000px; /* Устанавливаем большую высоту для видимости */
+    }
+
+    .info-toggle.open h3 {
+      color: #ddd;
+    }
+
+    /* Для секций, чтобы они занимали меньше места */
+    section.block h2 {
+      font-size: 18px; /* Уменьшаем заголовок секции */
+    }
+
+    section.block label {
+      font-size: 14px; /* Уменьшаем размер текста в формах */
+    }
+
+    /* Стили для списков с кружочками */
+    .info-content ul {
+      list-style-type: circle; /* Ставим маленькие кружочки */
+      padding-left: 20px; /* Добавляем отступ для кружочков */
+    }
+
+    .info-content li {
+      margin-bottom: 10px; /* Добавляем отступы между элементами */
+    }
+
+    /* Эффект при клике на секцию */
+    .info-toggle:active {
+      background-color: #444;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="images/logo.png" alt="Логотип" class="logo">
+      <h1>Специфікація №___</h1>
+    </header>
+
+    <!-- Верхній блок -->
+    <section class="block">
+      <h2>Загальна інформація</h2>
+      <div class="row">
+        <label>Опуск стелі, мм: <input type="number" value="0"></label>
+        <label>Висота проєму (H), мм: <input type="number" value="2700"></label>
+        <label>Ширина проєму (W), мм: <input type="number" value="1700"></label>
+        <label>Кількість дверей, шт: 
+          <select>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+          </select>
+        </label>
+        <label>Серія розсувних дверей:
+          <select>
+            <option>Classic</option>
+            <option>SlimAir</option>
+          </select>
+        </label>
+        <label>Варіант відкриття (Version): 
+          <select>
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+            <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+            <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
+          </select>
+        </label>
+        <label>Варіант монтажу (Version):
+          <select>
+            <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option>
+            <option>A2</option><option>B2</option><option>C2</option><option>D2</option><option>E2</option><option>F2</option><option>G2</option><option>H2</option><option>I2</option>
+            <option>A3</option><option>B3</option><option>C3</option><option>D3</option><option>E3</option><option>F3</option>
+            <option>A4</option><option>B4</option><option>C4</option><option>D4</option><option>E4</option>
+          </select>
+        </label>
+        <label>Колір профілю:
+          <select>
+            <option>Білий</option>
+            <option>Коричневий</option>
+            <option>Бронза</option>
+            <option>Антрацит</option>
+            <option>Чорний</option>
+            <option>RAL</option>
+            <option>Анод чорний</option>
+          </select>
+        </label>
+        <label>Доставка (без занесення на поверх):
+          <select>
+            <option>Повна доставка ( закладні елементи ( брус ) та шини, двері )</option>
+          </select>
+        </label>
+        <label>Монтаж:
+          <select>
+            <option>Закладні елементи ( брус ) та шини</option>
+            <option>Тільки двері</option>
+            <option>Повний монтаж ( закладні елементи ( брус ) та шини, двері )</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <!-- Полотно 1 -->
+    <section class="block">
+      <h2>Полотно №1</h2>
+      <div class="row">
+        <label>Висота дверей (H1), мм: <input type="number" value="2650" class="priceInput"></label>
+        <label>Ширина дверей (W1), мм: <input type="number" value="525" class="priceInput"></label>
+        <label>Модель дверей:
+          <select class="priceInput">
+            <option>Manchester</option>
+            <option>Napoli</option>
+            <option>Geneva</option>
+            <option>New York</option>
+            <option>Paris</option>
+            <option>London</option>
+          </select>
+        </label>
+        <label>Тип перемичок:
+          <select class="priceInput">
+            <option>№1 (10x10)</option>
+            <option>№2 (20x10)</option>
+            <option>№3 (30x10)</option>
+            <option>№4 (40x10)</option>
+            <option>№5 (12x1,5)</option>
+            <option>№6 (20x1,5)</option>
+            <option>№7 (25x1.5)</option>
+          </select>
+        </label>
+        <label>Тип розсувної системи:
+          <select class="priceInput">
+            <option>Classic з доводчиком</option>
+            <option>Classic без доводчика</option>
+            <option>Classic з двухстороннiм доводчиком</option>
+            <option>Не вiдчиняються</option>
+          </select>
+        </label>
+        <label>Напрями вiдкриття:
+          <select class="priceInput">
+            <option>Не вiдчиняються</option>
+            <option>Право</option>
+            <option>Лiво</option>
+          </select>
+        </label>
+        <label>Наповнення:
+          <select class="priceInput">
+            <option>Скло звичайне ESG 4мм</option>
+            <option>Скло звичайне сатин ESG 4мм</option>
+            <option>Скло Diamond ESG 4мм</option>
+            <option>Скло Diamond сатин ESG 4мм</option>
+            <option>Скло бронза ESG 4мм</option>
+            <option>Скло бронза сатин ESG 4мм</option>
+            <option>Скло графіт ESG 4мм</option>
+            <option>Скло графіт сатин ESG 4мм</option>
+          </select>
+        </label>
+        <label>Тип дверної ручки:
+          <select class="priceInput">
+            <option>№1</option>
+            <option>№2</option>
+          </select>
+        </label>
+        <label>Розташування дверної ручки:
+          <select class="priceInput">
+            <option>Правовучі одна сторона</option>
+            <option>Правовучі дві сторони</option>
+            <option>Ліворучі одна сторона</option>
+            <option>Ліворучі дві сторони</option>
+            <option>Правовучі та ліворучі одна сторона</option>
+            <option>Правовучі та ліворучі дві сторони</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <!-- Сумма -->
+    <section class="block">
+      <h2>Загальна вартість</h2>
+      <div class="row">
+        <strong>₴ <span id="totalPrice">0.00</span></strong>
+      </div>
+    </section>
+
+    <!-- Підпис -->
+    <section class="footer">
+      <label>Прізвище, ім'я, по батькові: <input type="text"></label>
+      <label>Фактична дата підпису: <input type="date"></label>
+      <label>Підпис: <input type="text"></label>
+
+      <!-- Кнопка "Роздрукувати PDF" -->
+      <button id="printPdfBtn" class="darkButton">Роздрукувати PDF</button>
+    </section>
+
+    <!-- Информация с анимацией -->
+    <section class="info-toggle" id="workStages">
+      <h3>ПОЕТАПНІСТЬ РОБОТИ НАД ЗАМОВЛЕННЯМ</h3>
+      <div class="info-content">
+        <ul>
+          <li>Специфікація попередньої вартості (по розмірах та параметрах замовника)- до 2 днiв</li>
+          <li>Вимірювання на об'єкті - до 7 днiв</li>
+          <li>Підписання договору та специфікації, внесення оплати (повна/часткова)</li>
+          <li>Розробка креслень закладних елементів та шини - до 5 днiв</li>
+          <li>Підписання проекту-креслення із замовником</li>
+          <li>
+  Підписання проекту-креслення із замовником 
+  <span style="color: red;">Увага! Без підпису технічних креслень закладні елементи та шини в роботу не йдуть!</span>
+</li>
+  
+          <li>Виготовлення верхніх закладних елементів (бруса) та верхньої напрямної шини з кріпильними елементами - до 21 дня</li>
+          <li><span style="color: red;">Увага! Замовник повинен попередити завчасно про готовність підлоги для здійснення чистових замірів</span></li>
+   
+          <li>Доставка верхніх закладних елементів (бруса) та верхньої напрямної шини - до 5 днiв</li>
+          <li>Монтаж верхніх закладних елементів (бруса) та верхньої напрямної шини - до 7 днiв</li>
+          <li>Чистові заміри проєкту (після готовності стелі та підлоги) - до 7 днiв</li>
+          <li>Проект-креслення полотен - до 5 днiв</li>
+          <li>
+  Підписання креслень із замовником 
+  <span style="color: red;">Увага! Без підпису технічних креслень полотна в роботу не йдуть!</span>
+</li>
+
+          <li>Виготовлення полотен</li>
+          <li>Доплата за замовлення. Відправка здійснюється лише за повної оплати замовлення</li>
+          <li>Доставка замовлення "до під'їзду"  (дату доставки узгоджує персональний менеджер)</li>
+          <li>Монтаж замовлення та здача об'єкту</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="info-toggle" id="conditions">
+      <h3>ВАЖЛИВІ УМОВИ ТА ПРИМІТКИ</h3>
+      <div class="info-content">
+        <ul>
+          <li>При умові оформлення замовлення - послуга замірів безкоштовна в межах міста (За межами міста – 30 грн/км.)     У вартість входить 2 заміри: чорновий і чистовий. Додаткові заміри на вимогу замовника оплачуються окремо.</li>
+          <li>Послуги заміру без внесення авансу розраховуються за наступними цінами: В межах міста без внесеного авансу – 1 500 грн. За межами міста без внесеного авансу – 2 000 грн. + 30 грн/км.</li>
+          <li>Вартість монтажу може змінюватись в залежності від його складності (вартість оголошується до погодження специфікації або корегується після замірів шляхом перепідписання специфікації)</li>
+          <li> <span style="color: red; ">Увага! Якщо розміри фактичні відрізнятимуться від наданих для прорахунку більш ніж на 50 мм - виробник залишає за собою право перерахувати специфікацію.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="info-toggle" id="paymentConditions">
+      <h3>УМОВИ ОПЛАТИ</h3>
+      <div class="info-content">
+        <ul>
+          <li>Оплата за товар здійснюється у національній валюті України – гривні.</li>
+          <li>Авансовий платіж складає щонайменше 70% (замовлення приймається в роботу). Інше до обговорення.</li>
+          <li>У випадку, після внесення передоплати чи повної оплати, якщо здача замовлення затягнулася через причини різного характеру зі сторони  замовника (простій, затягування чи замороження ремонту, відсутність коштів доплатити, та інше) більше ніж на 6 місяців,  виробник залишає за собою право перерахувати вартість всього замовлення на момент доплати чи здачі замовлення згідно актуальних цін на цей день. Доплата за товар проводиться до моменту передачі товару покупцю, після повідомлення про повну готовність виробу. У разі, якщо комерційний курс ПАТ КБ «Приватбанк» з купівлі Євро, в день доплати, порівняно з курсом на дату внесення передоплати збільшився більш ніж на 7 (сім) відсотків, то сторони переглядають вартість неоплаченого товару на індекс таких змін та підписують нову специфікацію з оновленими цінами. </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const { jsPDF } = window.jspdf;
+
+    // Функция для открытия/закрытия информации с анимацией
+    document.querySelectorAll('.info-toggle').forEach(section => {
+      section.addEventListener('click', () => {
+        section.classList.toggle('open');
+      });
+    });
+
+    // Функция для печати в PDF
+    document.getElementById('printPdfBtn').addEventListener('click', () => {
+      const doc = new jsPDF();
+      doc.text("Специфікація №___", 10, 10);
+      doc.text("Загальна інформація", 10, 20);
+      doc.text("Висота проєму: " + document.querySelector('[type="number"]').value, 10, 30);
+      doc.save('specification.pdf');
+    });
+  </script>
+</body>
+</html>

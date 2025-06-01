@@ -1,0 +1,93 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #444;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* Чтобы не ломалось на маленьких экранах */
+}
+
+.logo {
+  height: 60px;
+}
+
+h1, h2 {
+  color: #f0f0f0;
+}
+
+.block {
+  background-color: #2a2a2a;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 200px;
+  font-size: 14px;
+}
+
+input, select {
+  padding: 5px;
+  margin-top: 5px;
+  background-color: #333;
+  color: #f0f0f0;
+  border: 1px solid #555;
+  border-radius: 4px;
+}
+
+.footer {
+  padding: 10px;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 8px;
+}
+
+/* 📱 Мобильная адаптация */
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  label {
+    flex: 1 1 auto;
+  }
+
+  input, select {
+    font-size: 16px;
+  }
+}
