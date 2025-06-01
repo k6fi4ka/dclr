@@ -49,13 +49,16 @@
       opacity: 0;
       max-height: 0; /* Изначально скрываем контент */
       overflow: hidden;
-      transition: opacity 0.4s ease-out, max-height 0.4s ease-out;
-      will-change: opacity, max-height;
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: opacity 0.6s ease, max-height 0.6s ease, transform 0.6s ease;
     }
 
     .info-toggle.open .info-content {
+      display: block;
       opacity: 1;
       max-height: 2000px; /* Устанавливаем большую высоту для видимости */
+      transform: scaleY(1);
     }
 
     .info-toggle.open h3 {
@@ -84,6 +87,20 @@
     /* Эффект при клике на секцию */
     .info-toggle:active {
       background-color: #444;
+    }
+
+    /* Медиазапрос для мобильных устройств */
+    @media (max-width: 768px) {
+      .info-toggle .info-content {
+        transition: opacity 0.3s ease, max-height 0.3s ease, transform 0.3s ease; /* Уменьшаем длительность анимации для мобильных */
+      }
+    }
+
+    /* Дополнительная плавная анимация для ПК */
+    @media (min-width: 769px) {
+      .info-toggle .info-content {
+        transition: opacity 0.6s ease, max-height 0.6s ease, transform 0.6s ease;
+      }
     }
   </style>
 </head>
@@ -257,27 +274,9 @@
           <li>Підписання договору та специфікації, внесення оплати (повна/часткова)</li>
           <li>Розробка креслень закладних елементів та шини - до 5 днiв</li>
           <li>Підписання проекту-креслення із замовником</li>
-          <li>
-  Підписання проекту-креслення із замовником 
-  <span style="color: red;">Увага! Без підпису технічних креслень закладні елементи та шини в роботу не йдуть!</span>
-</li>
-  
-          <li>Виготовлення верхніх закладних елементів (бруса) та верхньої напрямної шини з кріпильними елементами - до 21 дня</li>
-          <li><span style="color: red;">Увага! Замовник повинен попередити завчасно про готовність підлоги для здійснення чистових замірів</span></li>
-   
-          <li>Доставка верхніх закладних елементів (бруса) та верхньої напрямної шини - до 5 днiв</li>
-          <li>Монтаж верхніх закладних елементів (бруса) та верхньої напрямної шини - до 7 днiв</li>
-          <li>Чистові заміри проєкту (після готовності стелі та підлоги) - до 7 днiв</li>
-          <li>Проект-креслення полотен - до 5 днiв</li>
-          <li>
-  Підписання креслень із замовником 
-  <span style="color: red;">Увага! Без підпису технічних креслень полотна в роботу не йдуть!</span>
-</li>
-
-          <li>Виготовлення полотен</li>
-          <li>Доплата за замовлення. Відправка здійснюється лише за повної оплати замовлення</li>
-          <li>Доставка замовлення "до під'їзду"  (дату доставки узгоджує персональний менеджер)</li>
-          <li>Монтаж замовлення та здача об'єкту</li>
+          <li>Підписання проекту-креслення із замовником 
+            <span style="color: red;">Увага! Без підпису технічних креслень закладні елементи та шини в роботу не йдуть!</span>
+          </li>
         </ul>
       </div>
     </section>
@@ -313,6 +312,15 @@
       section.addEventListener('click', () => {
         section.classList.toggle('open');
       });
+    });
+
+    // Функция для печати в PDF
+    document.getElementById('printPdfBtn').addEventListener('click', () => {
+      const doc = new jsPDF();
+      doc.text("Специфікація №___", 10, 10);
+      doc.text("Загальна інформація", 10, 20);
+      doc.text("Висота проєму: " + document.querySelector('[type="number"]').value, 10, 30);
+      doc.save('specification.pdf');
     });
   </script>
 </body>
