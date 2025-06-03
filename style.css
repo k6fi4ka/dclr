@@ -19,7 +19,7 @@ header {
   border-bottom: 2px solid #444;
   padding-bottom: 10px;
   margin-bottom: 20px;
-  flex-wrap: wrap; /* Чтобы не ломалось на маленьких экранах */
+  flex-wrap: wrap;
 }
 
 .logo {
@@ -67,6 +67,32 @@ input, select {
   border-radius: 8px;
 }
 
+/* Основное размещение контента */
+.main-content {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.left-column {
+  flex: 1; /* Левый блок занимает все доступное место */
+}
+
+.right-column {
+  width: 300px; /* Правый блок фиксированной ширины */
+  flex-shrink: 0; /* Не сжимается */
+}
+
+.right-column .block {
+  background-color: #333; /* Темный фон для правого блока */
+  border: 1px solid #555;
+}
+
+.left-column .block {
+  background-color: #2a2a2a; /* Светлый фон для левого блока */
+  border: 1px solid #444;
+}
+
 /* 📱 Мобильная адаптация */
 @media screen and (max-width: 768px) {
   .container {
@@ -89,5 +115,14 @@ input, select {
 
   input, select {
     font-size: 16px;
+  }
+
+  .main-content {
+    flex-direction: column; /* Столбцы для мобильных устройств */
+    gap: 10px;
+  }
+
+  .left-column, .right-column {
+    width: 100%; /* Для мобильных устройств колонки будут занимать всю ширину */
   }
 }
