@@ -140,9 +140,9 @@
       <section class="block">
   <h2>Загальна інформація</h2>
   <div class="row">
-    <label>Опуск стелі, мм: <input type="number" value="0" class="priceInput"></label>
-    <label>Висота проєму (H), мм: <input type="number" value="2700" class="priceInput"></label>
-    <label>Ширина проєму (W), мм: <input type="number" value="1700" class="priceInput"></label>
+    <label>Опуск стелі, мм: <input type="number" value="" class="priceInput"></label>
+    <label>Висота проєму (H), мм: <input type="number" value="" class="priceInput"></label>
+    <label>Ширина проєму (W), мм: <input type="number" value="" class="priceInput"></label>
     <label>Кількість дверей, шт:
       <select class="priceInput">
         <option>1</option>
@@ -240,8 +240,8 @@ input[type="number"].priceInput {
       <section class="block" id="panelSection1">
         <h2>Полотно №1</h2>
         <div class="row">
-          <label>Висота дверей (H1), мм: <input type="number" value="2650" class="priceInput"></label>
-          <label>Ширина дверей (W1), мм: <input type="number" value="525" class="priceInput"></label>
+          <label>Висота дверей (H1), мм: <input type="number" value="" class="priceInput"></label>
+          <label>Ширина дверей (W1), мм: <input type="number" value="" class="priceInput"></label>
           <label>Модель дверей:
             <select class="priceInput">
               <option>Manchester</option>
@@ -290,14 +290,27 @@ input[type="number"].priceInput {
               <option>Скло графіт сатин ESG 4мм</option>
             </select>
           </label>
-          <label>Тип дверної ручки:
+          <label>Розташування дверної ручки:
+        <select class="priceInput">
+          <option>Правовучі одна сторона</option>
+          <option>Правовучі дві сторони</option>
+          <option>Ліворучі одна сторона</option>
+          <option>Ліворучі дві сторони</option>
+          <option>Правовучі та ліворучі одна сторона</option>
+          <option>Правовучі та ліворучі дві сторони</option>
+        </select>
+      </label>
+      <label>Тип дверної ручки:
             <select class="priceInput">
               <option>№1</option>
               <option>№2</option>
             </select>
-          </label>
         </div>
       </section>
+      
+      
+      
+      
 
       <!-- Кнопка для добавления нового полотна -->
       <div id="additionalPanels"></div>
@@ -319,8 +332,8 @@ input[type="number"].priceInput {
         newPanel.innerHTML = `
         <h2>Полотно №${panelCount + 1}</h2>
         <div class="row">
-          <label>Висота дверей (H1), мм: <input type="number" value="2650" class="priceInput"></label>
-          <label>Ширина дверей (W1), мм: <input type="number" value="525" class="priceInput"></label>
+          <label>Висота дверей (H1), мм: <input type="number" value="" class="priceInput"></label>
+          <label>Ширина дверей (W1), мм: <input type="number" value="" class="priceInput"></label>
           <label>Модель дверей:
             <select class="priceInput">
               <option>Manchester</option>
@@ -379,7 +392,15 @@ input[type="number"].priceInput {
           <option>Правовучі та ліворучі дві сторони</option>
         </select>
       </label>
+       <label>Тип дверної ручки:
+        <select class="priceInput">
+          <option>№1</option>
+          <option>№2</option>
+        </select>
+      </label>
     </div>
+     <span class="delete-panel">✖</span>  <!-- Крестик для удаления -->
+  </h2>
   `;
 
         document.getElementById('additionalPanels').appendChild(newPanel);
@@ -397,22 +418,21 @@ input[type="number"].priceInput {
 </div>
 </div>
 
+
   <script>
     // Функция для добавления нового полотна
     function addNewPanel() {
       // Получаем элемент, который нужно клонировать
       const firstPanel = document.getElementById('panel1');
 
-      // Клонируем панель
-      const newPanel = firstPanel.cloneNode(true);
+      
 
-      // Изменяем id нового полотна для уникальности
-      newPanel.id = 'panel' + (document.querySelectorAll('.block').length + 1);
+      
 
       // Создаем новый контейнер для панели
       const newPanelContainer = document.createElement('div');
       newPanelContainer.classList.add('block');
-      newPanelContainer.appendChild(newPanel);
+      
 
       // Добавляем новый контейнер в секцию
       const panelSection = document.getElementById('panelSection');
@@ -516,6 +536,6 @@ input[type="number"].priceInput {
     });
   });
 </script>
+<script src="script.js"></script>
 </body>
-
 </html>
