@@ -215,3 +215,4 @@ document.addEventListener('DOMContentLoaded', function() {
   // Первый расчет
   updateTotalPrice();
 });
+
