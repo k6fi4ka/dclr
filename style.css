@@ -185,6 +185,18 @@ input, select {
     opacity: 0;
   }
 }
+/* Плавное удаление полотна */
+@keyframes removePanel {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
 /* Стили для крестика */
 .delete-panel {
   font-size: 18px;
@@ -194,6 +206,7 @@ input, select {
   top: 1px;
   right: -25px; /* Крестик находится справа от полотна */
   transition: color 0.3s ease;
+  z-index: 101; /* Увеличиваем z-index крестика, чтобы он был выше, чем у родителя */
 }
 
 .delete-panel:hover {
@@ -202,5 +215,64 @@ input, select {
 
 /* Родительский элемент панели */
 .panel-block {
-  position: relative; /* Обеспечивает правильное позиционирование крестика относительно панели */
+  position: relative; /* Обеспечивает правильное позиционирование крестика */
+  padding-right: 25px; /* Чтобы контент не заезжал под крестик */
+  z-index: 99; /* Задаем z-index для панели */
+}
+
+/* Позиционирование правой панели */
+.right-column {
+  position: relative;
+  width: 250px; /* Установим фиксированную ширину */
+  margin-left: 20px; /* Смещаем окно вправо */
+}
+
+.right-column section.block {
+  position: sticky;
+  top: 20px; /* Фиксированная позиция после смещения */
+  transition: all 0.3s ease-out;
+  z-index: 100; /* Обеспечиваем, чтобы панель была ниже крестика */
+  background-color: #2a2a2a;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 15px;
+}
+
+/* Повторяющаяся настройка для правой панели */
+.right-column section.block {
+  position: sticky;
+  top: 20px;
+  z-index: 100;
+  will-change: transform; /* Улучшает плавность */
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1); /* Кастомная плавность */
+}
+
+/* Плавное удаление полотна */
+@keyframes removePanel {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.panel-block {
+  animation: panelAppear 0.5s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+
+.panel-block.remove {
+  animation: removePanel 0.4s ease-out forwards;  /* 0.4 должно совпадать с "}, 400); в//" в "Удаляем элемент после завершения анимации" */
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.logo {
+    width: 130px;    /* Устанавливаем ширину для картинки*/
+    height: auto;    /* Высота будет пропорциональна ширине */
 }
