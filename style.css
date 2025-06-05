@@ -16,7 +16,6 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid #444;
   padding-bottom: 10px;
   margin-bottom: 20px;
   flex-wrap: wrap;
@@ -275,4 +274,19 @@ input, select {
 .logo {
     width: 130px;    /* Устанавливаем ширину для картинки*/
     height: auto;    /* Высота будет пропорциональна ширине */
+}
+/* Устанавливаем ширину контейнера footer */
+.footer {
+    width: 90%;          /* Ширина контейнера 90% от доступного пространства */
+    max-width: 782px;    /* Максимальная ширина, чтобы контейнер не разрастался */
+    padding: 20px;       /* Отступы вокруг контейнера */
+    margin-left: 29px;   /* Сдвигаем контейнер вправо */
+}
+
+/* Уменьшаем ширину полей ввода */
+.footer input {
+    width: 100%;         /* Поля занимают 100% ширины контейнера */
+    max-width: 400px;    /* Максимальная ширина поля */
+    padding: 8px;        /* Отступ внутри поля */
+    margin-bottom: 10px; /* Отступ между полями */
 }
